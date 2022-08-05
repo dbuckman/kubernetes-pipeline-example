@@ -36,7 +36,7 @@ spec:
     projected:
       sources:
       - secret:
-          name: docker-credentials
+          name: dbuckman-docker-credentials
           items:
             - key: .dockerconfigjson
               path: config.json
@@ -64,7 +64,7 @@ spec:
           withEnv(['PATH+EXTRA=/busybox']) {
             sh '''#!/busybox/sh
             pwd
-            /kaniko/executor --context "`pwd`" --destination jpbriend/${IMAGE}:${VERSION}
+            /kaniko/executor --context "`pwd`" --destination dbuckmancb/${IMAGE}:${VERSION}
             '''
            }
         }
