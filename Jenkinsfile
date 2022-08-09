@@ -30,6 +30,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: awscli
+    image: amazon/aws-cli
+    command:
+      - 'sleep'
+      - '999999'
 
   volumes:
   - name: jenkins-docker-cfg
@@ -48,6 +53,9 @@ spec:
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     IMAGE = readMavenPom().getArtifactId()
     VERSION = readMavenPom().getVersion().replace("-SNAPSHOT", "")
+    AWS_ROLE_ARN = "arn:aws:iam::189768267137:role/JenkinsPushToECR"
+    AWS_WEB_IDENTITY_TOKEN_FILE = credentials('arch-aws-oidc')
+    AWS_SDK_LOAD_CONFIG=true
   }
 
   stages {
@@ -63,8 +71,9 @@ spec:
         container(name: 'kaniko', shell: '/busybox/sh') {
           withEnv(['PATH+EXTRA=/busybox']) {
             sh '''#!/busybox/sh
+            echo '{"credsStore":"ecr-login"}' > /kaniko/.docker/config.json
             pwd
-            /kaniko/executor --context "`pwd`" --destination dbuckmancb/${IMAGE}:${VERSION}
+            /kaniko/executor --context "`pwd`" --destination 189768267137.dkr.ecr.us-east-1.amazonaws.com/dbuckman-pipelinetest:${VERSION}
             '''
            }
         }
@@ -72,6 +81,9 @@ spec:
     }
     stage('Deplopy to K8s') {
       steps {
+        container('awscli') {
+          sh 'aws sts get-caller-identity'
+        }
         container('helm') {
           sh ' echo "helm xxxxxxx" '
         }
