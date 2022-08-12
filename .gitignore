@@ -15,4 +15,5 @@ target/
 *.iws
 .vscode
 .history
+.dccache
 
