@@ -73,7 +73,7 @@ spec:
             sh '''#!/busybox/sh
             echo '{"credsStore":"ecr-login"}' > /kaniko/.docker/config.json
             pwd
-            /kaniko/executor --context "`pwd`" --destination 189768267137.dkr.ecr.us-east-1.amazonaws.com/dbuckman-pipelinetest:${VERSION} --destination 189768267137.dkr.ecr.us-east-1.amazonaws.com/dbuckman-pipelinetest:latest
+            /kaniko/executor --context "`pwd`" --destination 189768267137.dkr.ecr.us-east-1.amazonaws.com/dbuckman-pipelinetest:${VERSION}
             '''
            }
         }
