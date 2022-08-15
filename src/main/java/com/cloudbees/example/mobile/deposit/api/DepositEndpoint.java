@@ -2,7 +2,6 @@ package com.cloudbees.example.mobile.deposit.api;
 
 import com.cloudbees.example.mobile.deposit.api.model.Deposit;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,6 @@ public class DepositEndpoint {
     @Value("${version}")
     private String version;
 
-    @CrossOrigin(origins = "*")
     @GetMapping("/account/deposit")
     public @ResponseBody Deposit getDepositAccount() {
 
