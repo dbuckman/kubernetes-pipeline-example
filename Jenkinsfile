@@ -62,7 +62,7 @@ spec:
     stage('Build') {
       steps {
         container('maven') {
-          sh 'mvn clean package'
+          sh 'mvn --no-transfer-progress clean package'
         }
       }
     }
